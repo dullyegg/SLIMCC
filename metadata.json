@@ -1,0 +1,6 @@
+{
+  "name": "Food Calorie Tracker AI",
+  "description": "Calculate food calories by name or photo, matching against Firebase or using AI fallback.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": []
+}
