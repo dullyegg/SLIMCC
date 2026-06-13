@@ -121,7 +121,7 @@ export default function App() {
           setResult(data);
           setSource('ai');
         } else {
-          setError("找不到這食物的資料。(Could not find data for this food)");
+          setError('找不到這食物的資料。請確認 AI 服務已設定。');
         }
       }
     } catch (err: any) {

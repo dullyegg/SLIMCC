@@ -35,12 +35,20 @@ async function callGeminiApi(request: GeminiRequest): Promise<NutritionalInfo | 
   return payload.result ?? null;
 }
 
+function toUserError(err: unknown): string {
+  const message = err instanceof Error ? err.message : 'Gemini request failed';
+  if (message.includes('GEMINI_API_KEY')) {
+    return 'AI 服務未設定。請喺 Netlify 加入 GEMINI_API_KEY 環境變數後重新部署。';
+  }
+  return message;
+}
+
 export async function analyzeFoodText(foodName: string): Promise<NutritionalInfo | null> {
   try {
     return await callGeminiApi({type: 'text', foodName});
   } catch (err) {
     console.error('AI Text Error', err);
-    return null;
+    throw new Error(toUserError(err));
   }
 }
 
@@ -52,6 +60,6 @@ export async function analyzeFoodImage(
     return await callGeminiApi({type: 'image', base64Image, mimeType});
   } catch (err) {
     console.error('AI Image Error', err);
-    return null;
+    throw new Error(toUserError(err));
   }
 }
