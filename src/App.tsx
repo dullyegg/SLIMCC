@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Search, Flame, Droplet, Apple, FileWarning, ChevronLeft, ChevronRight, Plus, Award, CheckCircle2, Sunrise, Sun, Moon, Cookie, Settings, Trash2 } from 'lucide-react';
 import { searchFoodInDatabase, suggestFoodsFromDatabase } from './lib/firebase';
+import { firebaseConfig } from './lib/firebase.config';
 import { analyzeFoodText, analyzeFoodImage, NutritionalInfo } from './lib/gemini';
 
 type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
@@ -48,7 +49,9 @@ export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
 
-  const isFirebaseConfigured = !!((import.meta as any).env?.VITE_FIREBASE_PROJECT_ID);
+  const isFirebaseConfigured = !!(
+    (import.meta as any).env?.VITE_FIREBASE_PROJECT_ID || firebaseConfig.projectId
+  );
 
   const [dailyGoal, setDailyGoal] = useState<number>(2000);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
